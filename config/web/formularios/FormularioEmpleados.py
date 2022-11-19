@@ -28,7 +28,7 @@ class FormularioRegistroEmpleados(forms.Form):
         label="Edad Empleado"
     )
     correoEmpleado=forms.CharField(
-        widget=forms.NumberInput(attrs={"class":"form-control mb-3"}),
+        widget=forms.TextInput(attrs={"class":"form-control mb-3"}),
         required=True,
         label="Correo Empleado"
     )

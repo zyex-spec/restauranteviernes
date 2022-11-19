@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from web.formularios.formularioPlatos import FormularioRegistroPlatos
 from web.formularios.FormularioEmpleados import FormularioRegistroEmpleados
+from web.models import Platos,Empleado
 # Create your views here.
 
 #CADA VISTA ES UNA FUNCION DE PY
@@ -9,7 +10,7 @@ from web.formularios.FormularioEmpleados import FormularioRegistroEmpleados
 def Home(request):
     return render(request,'index.html')
 
-def Platos(request):
+def PlatosVista(request):
 
     #cargar el formulario de registro de platos 
     formulario = FormularioRegistroPlatos()
@@ -24,7 +25,14 @@ def Platos(request):
         datosFormulario=FormularioRegistroPlatos(request.POST)
         if datosFormulario.is_valid():
             datosLimpios = datosFormulario.cleaned_data
-            print(datosLimpios)
+            platoNuevo = Platos(
+                nombre=datosLimpios["nombrePlato"],
+                descripcion=datosLimpios["descripcionPlato"],
+                imagen=datosLimpios["fotoPlato"],
+                precio=datosLimpios["precioPlato"],
+                tipo=datosLimpios["tipoPlato"]
+            )
+            platoNuevo.save()
     return render(request,'platos.html',diccionarioEnvioDatos)
 
 def Empleados(request):
@@ -42,5 +50,14 @@ def Empleados(request):
         datosFormulario=FormularioRegistroEmpleados(request.POST)
         if datosFormulario.is_valid():
             datosLimpios = datosFormulario.cleaned_data
-            print(datosLimpios)
+            #Enviando datos mi bd
+            empleadoNuevo = Empleado(
+                nombre=datosLimpios["nombreEmpleado"],
+                funcion=datosLimpios["funcionEmpleado"],
+                edad=datosLimpios["edadEmpleado"],
+                correo=datosLimpios["correoEmpleado"],
+                zona=datosLimpios["zonaEmpleado"]
+            )
+            empleadoNuevo.save()
+
     return render(request,'empleados.html',diccionarioEnvioDatos)
